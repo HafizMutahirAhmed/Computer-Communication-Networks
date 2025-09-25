@@ -1,0 +1,15 @@
+Area 0 -> backbone Area
+DR -> 
+if DR Gets down then BDR takes its place.
+that's why OSPF is called hierarchcal routing. 
+OSPF by default supports subnetting. 
+OSPF have by default Wild card mask.
+inverse of subnet mask is wild card mask and is used for matching purposes.
+e.g if subnet mask is 255.0.0.0 then its wild card mask is 0.255.255.255;
+same as dynamic routing,
+
+ospf 1 <-
+number of zeros in the power of 2 identifies  number of hosts in a subnet
+number of ones in the power of 2 identifies
+variable length subnet mask = VLSM
+
