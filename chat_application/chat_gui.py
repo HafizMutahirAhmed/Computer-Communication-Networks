@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter import simpledialog, scrolledtext, messagebox
 from client_handler import MessageHandler
 from datetime import datetime
+from voice_call_handler import VoiceCallHandler
 
 
 class ChatGUI:
@@ -11,6 +12,7 @@ class ChatGUI:
         root = tk.Tk()
         root.withdraw()
         self.username = simpledialog.askstring("Login", "Enter your username:")
+        self.voice_handler = VoiceCallHandler(self.username)
         if not self.username:
             self.username = "Anonymous"
         root.destroy()
@@ -65,6 +67,19 @@ class ChatGUI:
             relief="flat", width=20, height=2, activebackground="#388e3c", activeforeground="white"
         )
         self.btn_pm.pack(side=tk.LEFT, expand=True, padx=10)
+        
+
+        self.btn_call = tk.Button(
+    btn_frame, text="📞 Voice Call", command=self.start_voice_call,
+    bg="#2e7d32", fg="white", font=("Segoe UI", 12, "bold"),
+    relief="flat", width=20, height=2, activebackground="#388e3c", activeforeground="white"
+)
+        self.btn_call.pack(side=tk.LEFT, expand=True, padx=10)
+
+
+
+        
+
 
         self.btn_quit = tk.Button(
             btn_frame, text="❌ Quit", command=self.on_close,
@@ -116,6 +131,13 @@ class ChatGUI:
         self.handler.send_message(msg)
         self.display_message(f"[You]: {msg}", tag="self")
         self.msg_entry.delete(0, tk.END)
+
+    def start_voice_call(self):
+        target = simpledialog.askstring("Voice Call", "Enter username to call:")
+        if not target:
+            return
+        # Send call request command to server
+        self.handler.send_message(f"/call {target}")
 
     # ---------- Send Private Message ----------
     def send_private_message(self):

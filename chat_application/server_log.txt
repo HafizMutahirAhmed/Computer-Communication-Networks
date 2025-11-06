@@ -108,3 +108,16 @@
 [2025-10-12 13:17:08] [BROADCAST] [humera] (192.168.1.6:54793): is it your project
 [2025-10-12 13:17:54] [RECEIVED RAW] humera: kia ?
 [2025-10-12 13:17:54] [BROADCAST] [humera] (192.168.1.6:54793): kia ?
+[2025-10-29 10:33:05] [SERVER STARTED] Listening on 127.0.0.1:5557
+[2025-10-29 10:37:57] [NEW CONNECTION] mutahir (('127.0.0.1', 52458))
+[2025-10-29 10:37:57] [CONNECTED] mutahir (('127.0.0.1', 52458))
+[2025-10-29 10:38:23] [NEW CONNECTION] ali (('127.0.0.1', 45382))
+[2025-10-29 10:38:23] [CONNECTED] ali (('127.0.0.1', 45382))
+[2025-10-29 10:38:36] [RECEIVED RAW] mutahir: hello
+[2025-10-29 10:38:36] [BROADCAST] [mutahir] (127.0.0.1:52458): hello
+[2025-10-29 10:38:47] [RECEIVED RAW] ali: hi this is ali
+[2025-10-29 10:38:47] [BROADCAST] [ali] (127.0.0.1:45382): hi this is ali
+[2025-10-29 10:40:07] [RECEIVED RAW] mutahir: how are you??
+[2025-10-29 10:40:07] [BROADCAST] [mutahir] (127.0.0.1:52458): how are you??
+[2025-10-29 10:40:11] [RECEIVED RAW] ali: i am good
+[2025-10-29 10:40:11] [BROADCAST] [ali] (127.0.0.1:45382): i am good
