@@ -35,29 +35,36 @@ class MessageHandler:
     def receive_messages(self):
         while self.running:
             try:
-                msg = self.client_socket.recv(4096)  # use larger buffer for files/audio
+                msg = self.client_socket.recv(4096)
                 if not msg:
                     break
 
-                # ---------------- FILE DATA ----------------
+                # ---------------- FILE START ----------------
                 if msg.startswith(b"[FILE]"):
-                    # Notify user of incoming file
+                    # Extract filename
+                    filename = msg[len(b"[FILE]"):].decode('utf-8').strip()
+                    self.current_file_name = filename
+                    self.current_file = open(filename, "wb")
                     if self.gui_callback:
-                        self.gui_callback(msg.decode('utf-8'))
+                        self.gui_callback(f"[SYSTEM] Receiving file '{filename}'...")
 
+                # ---------------- FILE DATA ----------------
                 elif msg.startswith(b"[FILEDATA]"):
-                    # Receive actual file bytes
                     file_data = msg[len(b"[FILEDATA]"):]
-                    # Append to a temporary file (e.g., received_file)
-                    with open("received_file", "ab") as f:
-                        f.write(file_data)
+                    if hasattr(self, "current_file") and self.current_file:
+                        self.current_file.write(file_data)
+
+                # ---------------- END OF FILE ----------------
+                elif msg.startswith(b"[ENDFILE]"):
+                    if hasattr(self, "current_file") and self.current_file:
+                        self.current_file.close()
+                        del self.current_file
                     if self.gui_callback:
-                        self.gui_callback("[SYSTEM] Received a chunk of a file...")
+                        self.gui_callback(f"[SYSTEM] File '{self.current_file_name}' received successfully!")
 
                 # ---------------- VOICE DATA ----------------
                 elif msg.startswith(b"[VOICE]"):
-                    audio_data = msg[len(b"[VOICE]"):]  # raw bytes
-                    # You will need a running PyAudio stream to play
+                    audio_data = msg[len(b"[VOICE]"):]
                     if hasattr(self, "voice_stream"):
                         self.voice_stream.write(audio_data)
 
@@ -70,6 +77,7 @@ class MessageHandler:
                 print(f"[DISCONNECTED] {e}")
                 self.running = False
                 break
+
 
     def stop(self):
         self.running = False

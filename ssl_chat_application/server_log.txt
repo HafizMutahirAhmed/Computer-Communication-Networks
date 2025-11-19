@@ -131,3 +131,21 @@
 [2025-11-19 19:55:59] [RECEIVED RAW] mutahir: /list
 [2025-11-19 19:56:09] [RECEIVED RAW] mutahir: /quit
 [2025-11-19 19:56:09] [DISCONNECTED] mutahir ('192.168.1.16', 52064)
+[2025-11-19 19:58:20] [SECURE CONNECTION] TLS handshake successful with ('192.168.1.16', 58766)
+[2025-11-19 19:58:20] [NEW CONNECTION] mutahir (('192.168.1.16', 58766))
+[2025-11-19 19:58:20] [CONNECTED] mutahir (('192.168.1.16', 58766))
+[2025-11-19 19:58:56] [SECURE CONNECTION] TLS handshake successful with ('192.168.1.8', 58411)
+[2025-11-19 19:58:56] [NEW CONNECTION] humera (('192.168.1.8', 58411))
+[2025-11-19 19:58:56] [CONNECTED] humera (('192.168.1.8', 58411))
+[2025-11-19 19:59:04] [RECEIVED RAW] mutahir: /list
+[2025-11-19 19:59:08] [RECEIVED RAW] humera: /list
+[2025-11-19 19:59:10] [RECEIVED RAW] humera: hi
+[2025-11-19 19:59:10] [BROADCAST] [humera] (192.168.1.8:58411): hi
+[2025-11-19 19:59:14] [RECEIVED RAW] mutahir: hello
+[2025-11-19 19:59:14] [BROADCAST] [mutahir] (192.168.1.16:58766): hello
+[2025-11-19 19:59:23] [RECEIVED RAW] mutahir: /file humera /home/mutahir/Documents/CCN/ssl_chat_application/connection_manager.py
+[2025-11-19 19:59:23] [FILE] mutahir sent /home/mutahir/Documents/CCN/ssl_chat_application/connection_manager.py to humera
+[2025-11-19 20:00:53] [RECEIVED RAW] mutahir: /file humera /home/mutahir/Documents/CCN/OSPF Notes
+[2025-11-19 20:00:53] [FILE] mutahir sent /home/mutahir/Documents/CCN/OSPF Notes to humera
+[2025-11-19 20:04:59] [RECEIVED RAW] mutahir: /quit
+[2025-11-19 20:04:59] [DISCONNECTED] mutahir ('192.168.1.16', 58766)
