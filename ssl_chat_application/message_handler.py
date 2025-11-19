@@ -54,15 +54,6 @@ class MessageHandler:
                     _, target_username, filename = parts
                     self.handle_file_transfer(username, target_username, filename)
 
-                # ----------- VOICE CALL -----------
-                elif msg.startswith("/voice "):
-                    # Format: /voice recipient_username <audio_bytes>
-                    parts = msg.split(" ", 2)
-                    if len(parts) < 3:
-                        continue
-                    _, target_username, audio_data = parts
-                    self.handle_voice_data(username, target_username, audio_data)
-
                 elif msg == "/list":
                     self.send_user_list()
                 elif msg == "/quit":
@@ -92,16 +83,6 @@ class MessageHandler:
             self.client_socket.send(data_bytes)
         except Exception as e:
             print(f"[ERROR] Failed to send bytes: {e}")
-    def handle_voice_data(self, sender_username, target_username, audio_data):
-        target_sock = self.find_socket_by_username(target_username)
-        if target_sock is None:
-            self._send_to_client(self.client_socket, f"[SYSTEM] User '{target_username}' not found.")
-            return
-        try:
-            # Forward raw audio bytes with prefix
-            target_sock.send(b"[VOICE]" + audio_data)
-        except Exception as e:
-            self._send_to_client(self.client_socket, f"[SYSTEM] Failed to send voice: {e}")
 
     def handle_file_transfer(self, sender_username, target_username, filepath):
         target_sock = self.find_socket_by_username(target_username)

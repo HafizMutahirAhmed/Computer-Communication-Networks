@@ -164,3 +164,36 @@
 [2025-11-19 20:07:54] [FILE] mutahir sent /home/mutahir/Documents/CCN/Static Routing.pkt to usman
 [2025-11-19 20:08:49] [RECEIVED RAW] mutahir: /quit
 [2025-11-19 20:08:49] [DISCONNECTED] mutahir ('192.168.1.16', 33932)
+[2025-11-19 20:18:43] [SECURE SERVER STARTED] Listening on 0.0.0.0:5557
+[2025-11-19 20:20:49] [SECURE CONNECTION] TLS handshake successful with ('192.168.1.8', 58615)
+[2025-11-19 20:20:49] [NEW CONNECTION] humera (('192.168.1.8', 58615))
+[2025-11-19 20:20:49] [CONNECTED] humera (('192.168.1.8', 58615))
+[2025-11-19 20:20:51] [SECURE CONNECTION] TLS handshake successful with ('192.168.1.16', 40474)
+[2025-11-19 20:20:51] [NEW CONNECTION] mutahir (('192.168.1.16', 40474))
+[2025-11-19 20:20:51] [CONNECTED] mutahir (('192.168.1.16', 40474))
+[2025-11-19 20:20:54] [RECEIVED RAW] mutahir: /list
+[2025-11-19 20:21:05] [RECEIVED RAW] mutahir: /file humera /home/mutahir/Documents/CCN/NAT.pkt
+[2025-11-19 20:21:05] [FILE] mutahir sent NAT.pkt to humera
+[2025-11-19 20:21:47] [RECEIVED RAW] mutahir: /file humera /home/mutahir/Documents/Ai/A*Algorithm.py
+[2025-11-19 20:21:47] [FILE] mutahir sent A*Algorithm.py to humera
+[2025-11-19 20:22:00] [RECEIVED RAW] mutahir: hi
+[2025-11-19 20:22:00] [BROADCAST] [mutahir] (192.168.1.16:40474): hi
+[2025-11-19 20:22:06] [RECEIVED RAW] humera: hello
+[2025-11-19 20:22:06] [BROADCAST] [humera] (192.168.1.8:58615): hello
+[2025-11-19 20:22:09] [RECEIVED RAW] humera: how are you
+[2025-11-19 20:22:09] [BROADCAST] [humera] (192.168.1.8:58615): how are you
+[2025-11-19 20:22:12] [RECEIVED RAW] mutahir: i am good
+[2025-11-19 20:22:12] [BROADCAST] [mutahir] (192.168.1.16:40474): i am good
+[2025-11-19 20:22:27] [RECEIVED RAW] humera: /quit
+[2025-11-19 20:22:27] [SEND ERROR] EOF occurred in violation of protocol (_ssl.c:2406)
+[2025-11-19 20:22:27] [DISCONNECTED] humera ('192.168.1.8', 58615)
+[2025-11-19 20:22:40] [SECURE CONNECTION] TLS handshake successful with ('192.168.1.8', 58625)
+[2025-11-19 20:22:40] [NEW CONNECTION] humera (('192.168.1.8', 58625))
+[2025-11-19 20:22:40] [CONNECTED] humera (('192.168.1.8', 58625))
+[2025-11-19 20:22:44] [RECEIVED RAW] mutahir: hi
+[2025-11-19 20:22:44] [BROADCAST] [mutahir] (192.168.1.16:40474): hi
+[2025-11-19 20:22:50] [RECEIVED RAW] humera: hiii
+[2025-11-19 20:22:50] [BROADCAST] [humera] (192.168.1.8:58625): hiii
+[2025-11-19 20:22:57] [RECEIVED RAW] mutahir: /file humera /home/mutahir/Documents/Ai/AC-3Algorithm.py
+[2025-11-19 20:22:57] [FILE] mutahir sent AC-3Algorithm.py to humera
+[2025-11-19 20:25:53] [DISCONNECTED] mutahir ('192.168.1.16', 40474)

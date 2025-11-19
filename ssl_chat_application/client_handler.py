@@ -62,12 +62,6 @@ class MessageHandler:
                     if self.gui_callback:
                         self.gui_callback(f"[SYSTEM] File '{self.current_file_name}' received successfully!")
 
-                # ---------------- VOICE DATA ----------------
-                elif msg.startswith(b"[VOICE]"):
-                    audio_data = msg[len(b"[VOICE]"):]
-                    if hasattr(self, "voice_stream"):
-                        self.voice_stream.write(audio_data)
-
                 # ---------------- NORMAL MESSAGES ----------------
                 else:
                     if self.gui_callback:
