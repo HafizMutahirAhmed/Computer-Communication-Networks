@@ -103,26 +103,35 @@ class MessageHandler:
         except Exception as e:
             self._send_to_client(self.client_socket, f"[SYSTEM] Failed to send voice: {e}")
 
-    def handle_file_transfer(self, sender_username, target_username, filename):
+    def handle_file_transfer(self, sender_username, target_username, filepath):
         target_sock = self.find_socket_by_username(target_username)
         if target_sock is None:
             self._send_to_client(self.client_socket, f"[SYSTEM] User '{target_username}' not found.")
             return
         try:
-            # Notify target user
-            self._send_to_client(target_sock, f"[FILE] Incoming file from {sender_username}: {filename}")
-            # Send actual file in chunks
-            with open(filename, "rb") as f:
+            # Extract filename only
+            import os
+            filename = os.path.basename(filepath)
+
+            # Send filename first
+            target_sock.send(f"[FILE]{filename}".encode('utf-8'))
+
+            # Send file in chunks
+            with open(filepath, "rb") as f:
                 data = f.read(4096)
                 while data:
                     target_sock.send(b"[FILEDATA]" + data)
                     data = f.read(4096)
+
+            # Send end-of-file signal
+            target_sock.send(b"[ENDFILE]")
+
+            # Notify sender
             self._send_to_client(self.client_socket, f"[SYSTEM] File '{filename}' sent to {target_username}.")
             logger.log_event(f"[FILE] {sender_username} sent {filename} to {target_username}")
+
         except Exception as e:
             self._send_to_client(self.client_socket, f"[SYSTEM] Failed to send file: {e}")
-
-
 
     def handle_private_message(self, sender_username, target_username, message):
         target_sock = self.find_socket_by_username(target_username)
