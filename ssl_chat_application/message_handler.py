@@ -20,7 +20,7 @@ class MessageHandler:
         thread.daemon = True
         thread.start()
 
-    def handle_client(self):
+    def handle_client(self): 
         username = None
         with self.clients_lock:
             username = self.clients.get(self.client_socket, "Unknown")
@@ -34,15 +34,35 @@ class MessageHandler:
                 msg = msg.strip()
                 logger.log_event(f"[RECEIVED RAW] {username}: {msg}")
 
-                # Commands
+                # ---------------- COMMANDS ----------------
                 if msg.startswith("/pm "):
-                    # Format: /pm recipient_username message...
+                    # existing private message code
                     parts = msg.split(" ", 2)
                     if len(parts) < 3:
                         self._send_to_client(self.client_socket, "[SYSTEM] Usage: /pm <username> <message>")
                         continue
                     _, target_username, private_msg = parts
                     self.handle_private_message(username, target_username, private_msg)
+
+                # ----------- FILE TRANSFER -----------
+                elif msg.startswith("/file "):
+                    # Format: /file recipient_username filename
+                    parts = msg.split(" ", 2)
+                    if len(parts) < 3:
+                        self._send_to_client(self.client_socket, "[SYSTEM] Usage: /file <username> <filename>")
+                        continue
+                    _, target_username, filename = parts
+                    self.handle_file_transfer(username, target_username, filename)
+
+                # ----------- VOICE CALL -----------
+                elif msg.startswith("/voice "):
+                    # Format: /voice recipient_username <audio_bytes>
+                    parts = msg.split(" ", 2)
+                    if len(parts) < 3:
+                        continue
+                    _, target_username, audio_data = parts
+                    self.handle_voice_data(username, target_username, audio_data)
+
                 elif msg == "/list":
                     self.send_user_list()
                 elif msg == "/quit":
@@ -52,10 +72,12 @@ class MessageHandler:
                     full_msg = f"[{username}] ({self.client_address[0]}:{self.client_address[1]}): {msg}"
                     logger.log_event(f"[BROADCAST] {full_msg}")
                     self.broadcast(full_msg)
+
             except Exception as e:
                 logger.log_event(f"[DISCONNECTED] {username} ({e})")
                 break
         self.stop()
+
 
     def find_socket_by_username(self, username):
         with self.clients_lock:
@@ -63,6 +85,44 @@ class MessageHandler:
                 if user == username:
                     return sock
         return None
+
+    # inside MessageHandler class
+    def send_message_bytes(self, data_bytes):
+        try:
+            self.client_socket.send(data_bytes)
+        except Exception as e:
+            print(f"[ERROR] Failed to send bytes: {e}")
+    def handle_voice_data(self, sender_username, target_username, audio_data):
+        target_sock = self.find_socket_by_username(target_username)
+        if target_sock is None:
+            self._send_to_client(self.client_socket, f"[SYSTEM] User '{target_username}' not found.")
+            return
+        try:
+            # Forward raw audio bytes with prefix
+            target_sock.send(b"[VOICE]" + audio_data)
+        except Exception as e:
+            self._send_to_client(self.client_socket, f"[SYSTEM] Failed to send voice: {e}")
+
+    def handle_file_transfer(self, sender_username, target_username, filename):
+        target_sock = self.find_socket_by_username(target_username)
+        if target_sock is None:
+            self._send_to_client(self.client_socket, f"[SYSTEM] User '{target_username}' not found.")
+            return
+        try:
+            # Notify target user
+            self._send_to_client(target_sock, f"[FILE] Incoming file from {sender_username}: {filename}")
+            # Send actual file in chunks
+            with open(filename, "rb") as f:
+                data = f.read(4096)
+                while data:
+                    target_sock.send(b"[FILEDATA]" + data)
+                    data = f.read(4096)
+            self._send_to_client(self.client_socket, f"[SYSTEM] File '{filename}' sent to {target_username}.")
+            logger.log_event(f"[FILE] {sender_username} sent {filename} to {target_username}")
+        except Exception as e:
+            self._send_to_client(self.client_socket, f"[SYSTEM] Failed to send file: {e}")
+
+
 
     def handle_private_message(self, sender_username, target_username, message):
         target_sock = self.find_socket_by_username(target_username)

@@ -4,7 +4,8 @@ import tkinter as tk
 from tkinter import simpledialog, scrolledtext, messagebox
 from client_handler import MessageHandler
 from datetime import datetime
-
+from tkinter import filedialog
+import pyaudio
 
 class ChatGUI:
     def __init__(self, host='127.0.0.1', port=5557):
@@ -66,6 +67,21 @@ class ChatGUI:
             relief="flat", width=20, height=2, activebackground="#388e3c", activeforeground="white"
         )
         self.btn_pm.pack(side=tk.LEFT, expand=True, padx=10)
+
+        self.btn_file = tk.Button(
+    btn_frame, text="📎 Send File", command=self.send_file,
+    bg="#2e7d32", fg="white", font=("Segoe UI", 12, "bold"),
+    relief="flat", width=20, height=2, activebackground="#388e3c", activeforeground="white"
+)
+        self.btn_file.pack(side=tk.LEFT, expand=True, padx=10)
+
+        self.btn_voice = tk.Button(
+    btn_frame, text="🎤 Voice Call", command=self.start_voice_call,
+    bg="#2e7d32", fg="white", font=("Segoe UI", 12, "bold"),
+    relief="flat", width=20, height=2, activebackground="#388e3c", activeforeground="white"
+)
+        self.btn_voice.pack(side=tk.LEFT, expand=True, padx=10)
+
 
         self.btn_quit = tk.Button(
             btn_frame, text="❌ Quit", command=self.on_close,
@@ -142,6 +158,20 @@ class ChatGUI:
     def request_user_list(self):
         self.handler.send_message("/list")
 
+
+
+    def send_file(self):
+        target = simpledialog.askstring("Send File", "Recipient username:")
+        if not target:
+            return
+        file_path = filedialog.askopenfilename(title="Select file to send")
+        if not file_path:
+            return
+        filename = file_path.split("/")[-1]
+        # Send file command to server
+        self.handler.send_message(f"/file {target} {file_path}")
+        self.display_message(f"[SYSTEM] Sending '{filename}' to {target}", tag="system")
+
     # ---------- Quit ----------
     def on_close(self):
         try:
@@ -155,6 +185,42 @@ class ChatGUI:
     # ---------- Run ----------
     def run(self):
         self.window.mainloop()
+
+
+# Add these in ChatGUI class:
+
+    def start_voice_call(self):
+        target = simpledialog.askstring("Voice Call", "Recipient username:")
+        if not target:
+            return
+        self.display_message(f"[SYSTEM] Starting voice call with {target}...", tag="system")
+        # Start thread to capture microphone and send audio
+        import threading
+        threading.Thread(target=self.capture_and_send_audio, args=(target,), daemon=True).start()
+
+    def capture_and_send_audio(self, target):
+        CHUNK = 1024
+        RATE = 44100
+        p = pyaudio.PyAudio()
+        stream = p.open(format=pyaudio.paInt16,
+                        channels=1,
+                        rate=RATE,
+                        input=True,
+                        frames_per_buffer=CHUNK)
+        try:
+            while True:
+                data = stream.read(CHUNK)
+                # Send audio to server
+                try:
+                    self.handler.send_message_bytes(b"/voice " + target.encode('utf-8') + b" " + data)
+                except:
+                    break
+        finally:
+            stream.stop_stream()
+            stream.close()
+            p.terminate()
+            self.display_message(f"[SYSTEM] Voice call with {target} ended.", tag="system")
+        
 
 
 if __name__ == "__main__":

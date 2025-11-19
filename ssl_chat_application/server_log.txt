@@ -108,3 +108,26 @@
 [2025-10-12 16:41:38] [DISCONNECTED] laiba ('127.0.0.1', 53894)
 [2025-11-19 19:25:54] [SECURE SERVER STARTED] Listening on 0.0.0.0:5557
 [2025-11-19 19:26:06] [ERROR] [SSL: WRONG_VERSION_NUMBER] wrong version number (_ssl.c:1000)
+[2025-11-19 19:30:46] [SECURE SERVER STARTED] Listening on 0.0.0.0:5557
+[2025-11-19 19:30:53] [SECURE CONNECTION] TLS handshake successful with ('192.168.1.8', 51476)
+[2025-11-19 19:30:53] [NEW CONNECTION] humera (('192.168.1.8', 51476))
+[2025-11-19 19:30:53] [CONNECTED] humera (('192.168.1.8', 51476))
+[2025-11-19 19:33:09] [SECURE CONNECTION] TLS handshake successful with ('192.168.1.16', 55716)
+[2025-11-19 19:33:09] [NEW CONNECTION] mutahir (('192.168.1.16', 55716))
+[2025-11-19 19:33:09] [CONNECTED] mutahir (('192.168.1.16', 55716))
+[2025-11-19 19:33:26] [RECEIVED RAW] mutahir: hi
+[2025-11-19 19:33:26] [BROADCAST] [mutahir] (192.168.1.16:55716): hi
+[2025-11-19 19:33:33] [RECEIVED RAW] mutahir: how are you all
+[2025-11-19 19:33:33] [BROADCAST] [mutahir] (192.168.1.16:55716): how are you all
+[2025-11-19 19:34:31] [RECEIVED RAW] mutahir: /quit
+[2025-11-19 19:34:31] [DISCONNECTED] mutahir ('192.168.1.16', 55716)
+[2025-11-19 19:54:43] [SECURE SERVER STARTED] Listening on 0.0.0.0:5557
+[2025-11-19 19:55:41] [SECURE CONNECTION] TLS handshake successful with ('192.168.1.16', 52064)
+[2025-11-19 19:55:41] [NEW CONNECTION] mutahir (('192.168.1.16', 52064))
+[2025-11-19 19:55:41] [CONNECTED] mutahir (('192.168.1.16', 52064))
+[2025-11-19 19:55:46] [RECEIVED RAW] mutahir: hello
+[2025-11-19 19:55:46] [BROADCAST] [mutahir] (192.168.1.16:52064): hello
+[2025-11-19 19:55:52] [RECEIVED RAW] mutahir: /file humera /home/mutahir/Documents/CCN/ssl_chat_application/logger_utility.py
+[2025-11-19 19:55:59] [RECEIVED RAW] mutahir: /list
+[2025-11-19 19:56:09] [RECEIVED RAW] mutahir: /quit
+[2025-11-19 19:56:09] [DISCONNECTED] mutahir ('192.168.1.16', 52064)
